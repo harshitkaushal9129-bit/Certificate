@@ -10,46 +10,37 @@
         .search-area { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
         input { padding: 10px; width: 200px; border: 1px solid #ddd; border-radius: 5px; }
         button { padding: 10px 15px; background: #1a2a6c; color: white; border: none; border-radius: 5px; cursor: pointer; }
-
         #cert-ui { display: none; margin-top: 20px; }
         .cert-card { width: 95%; max-width: 800px; background: white; padding: 15px; margin: auto; border: 1px solid #ccc; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        .cert-border { border: 8px double #c5a059; padding: 25px; position: relative; }
+        .cert-border { border: 8px double #c5a059; padding: 25px; }
         .student-photo { width: 100px; height: 120px; border: 2px solid #c5a059; object-fit: cover; margin-bottom: 10px; }
-        .institute-name { font-family: 'Cinzel', serif; color: #1a2a6c; font-size: 28px; margin: 0; }
-        .student-name { font-family: 'Great Vibes', cursive; font-size: 38px; color: #222; margin: 10px 0; border-bottom: 1px solid #eee; display: inline-block; min-width: 250px; }
         .footer { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 30px; }
         .qr-code { width: 100px; height: 100px; }
-        
         @media print { .search-area, .btn-print { display: none; } .cert-card { box-shadow: none; border: none; width: 100%; } }
     </style>
 </head>
 <body>
-
     <div class="search-area">
-        <input type="text" id="rollInput" placeholder="Enter Roll Number">
-        <button id="findBtn">Search</button>
+        <input type="text" id="rollInput" placeholder="Roll Number">
+        <button id="findBtn">Get Certificate</button>
     </div>
-
     <div id="cert-ui">
         <div class="cert-card" id="printArea">
             <div class="cert-border">
                 <img id="out-photo" class="student-photo" src="">
-                <h2 class="institute-name">KAUSHALJI INSTITUTE</h2>
+                <h2 style="font-family:'Cinzel'; color:#1a2a6c;">KAUSHALJI INSTITUTE</h2>
                 <h1 style="font-family:'Cinzel'; color:#c5a059; font-size: 30px;">CERTIFICATE</h1>
                 <p>This is to certify that</p>
-                <div class="student-name" id="out-name">---</div>
-                <div class="details">
-                    Son/Daughter of <b><span id="out-father">---</span></b>, Roll No: <b><span id="out-roll">---</span></b><br>
-                    successfully completed <b><span id="out-course">---</span></b> with Grade <b><span id="out-grade">---</span></b>.
-                </div>
+                <div id="out-name" style="font-family:'Great Vibes'; font-size: 38px;">---</div>
+                <div style="margin:20px 0;">Roll No: <b id="out-roll"></b> | Course: <b id="out-course"></b></div>
                 <div class="footer">
-                    <div style="text-align:left; font-size: 12px;"><hr>Director Signature</div>
+                    <div style="text-align:left; font-size:12px;"><hr>Director Signature</div>
                     <img id="out-qr" class="qr-code">
-                    <div style="text-align:right; font-size: 12px;"><p id="out-date"></p><p>India</p></div>
+                    <div style="text-align:right; font-size:12px;"><p id="out-date"></p><p>India</p></div>
                 </div>
             </div>
         </div>
-        <button class="btn-print" onclick="window.print()" style="margin-top:20px; padding:10px 20px; background:#28a745; color:white; border:none; border-radius:5px;">Download PDF</button>
+        <button class="btn-print" onclick="window.print()" style="margin-top:20px; padding:10px 20px; background:#28a745; color:white; border:none; border-radius:5px;">Print / Download</button>
     </div>
 
     <script type="module">
@@ -70,21 +61,18 @@
         document.getElementById('findBtn').onclick = async () => {
             const roll = document.getElementById('rollInput').value.trim();
             const snapshot = await get(child(dbRef, `certificates/${roll}`));
-            
             if(snapshot.exists()) {
                 const data = snapshot.val();
                 document.getElementById('cert-ui').style.display = 'block';
                 document.getElementById('out-name').innerText = data.name;
-                document.getElementById('out-father').innerText = data.father;
                 document.getElementById('out-roll').innerText = data.roll;
                 document.getElementById('out-course').innerText = data.course;
-                document.getElementById('out-grade').innerText = data.grade;
-                document.getElementById('out-date').innerText = "Date: " + data.date;
                 document.getElementById('out-photo').src = data.photo;
+                document.getElementById('out-date').innerText = "Date: " + data.date;
 
                 const vUrl = `https://harshitkaushal9129-bit.github.io/Certificate/verify.html?id=${roll}`;
                 document.getElementById('out-qr').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(vUrl)}`;
-            } else { alert("Not Found!"); }
+            } else { alert("Record Not Found!"); }
         };
     </script>
 </body>
