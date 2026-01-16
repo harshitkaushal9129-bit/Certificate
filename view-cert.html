@@ -3,45 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Certificate</title>
+    <title>Official Certificate - Kaushal Computer Institute</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Great+Vibes&family=Montserrat:wght@400;700&display=swap');
-        body { font-family: 'Montserrat', sans-serif; background: #eef2f3; text-align: center; padding: 10px; }
-        .search-area { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
-        input { padding: 10px; width: 200px; border: 1px solid #ddd; border-radius: 5px; }
-        button { padding: 10px 15px; background: #1a2a6c; color: white; border: none; border-radius: 5px; cursor: pointer; }
-        #cert-ui { display: none; margin-top: 20px; }
-        .cert-card { width: 95%; max-width: 800px; background: white; padding: 15px; margin: auto; border: 1px solid #ccc; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        .cert-border { border: 8px double #c5a059; padding: 25px; }
-        .student-photo { width: 100px; height: 120px; border: 2px solid #c5a059; object-fit: cover; margin-bottom: 10px; }
-        .footer { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 30px; }
-        .qr-code { width: 100px; height: 100px; }
-        @media print { .search-area, .btn-print { display: none; } .cert-card { box-shadow: none; border: none; width: 100%; } }
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Great+Vibes&family=Montserrat:wght@400;700&family=Birthstone&display=swap');
+
+        body { font-family: 'Montserrat', sans-serif; background: #2c3e50; margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        
+        .search-area { background: #fff; padding: 15px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); width: 100%; max-width: 350px; z-index: 100; text-align: center; }
+        input { width: 60%; padding: 10px; border: 2px solid #1a2a6c; border-radius: 5px; outline: none; }
+        button { padding: 10px 15px; background: #1a2a6c; color: #fff; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+
+        #cert-wrapper { width: 100%; display: none; overflow: hidden; display: flex; justify-content: center; }
+        
+        .cert-card { 
+            width: 1000px; background: #fff; padding: 10px; position: relative;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.6); box-sizing: border-box; flex-shrink: 0;
+        }
+
+        .cert-border { 
+            border: 15px solid transparent;
+            border-image: url('https://img.freepik.com/free-vector/golden-luxury-frame-gradient-style_23-2148894151.jpg') 30 stretch;
+            padding: 40px; position: relative; background: white; min-height: 600px;
+            box-sizing: border-box; display: flex; flex-direction: column; align-items: center;
+        }
+
+        .student-photo { 
+            width: 110px; height: 135px; border: 3px solid #1a2a6c; 
+            position: absolute; top: 160px; right: 45px; 
+            object-fit: cover; box-shadow: 5px 5px 15px rgba(0,0,0,0.1); z-index: 5;
+        }
+
+        .institute-name { 
+            font-family: 'Cinzel', serif; color: #1a2a6c; 
+            font-size: 32px; margin: 0; font-weight: 900; 
+            text-align: center; width: 100%; letter-spacing: 1px;
+        }
+        .sub-text { font-size: 12px; color: #c5a059; font-weight: bold; letter-spacing: 3px; text-align: center; width: 100%; margin-top: 5px; }
+        
+        .main-title { font-family: 'Cinzel', serif; font-size: 55px; color: #1a2a6c; margin: 35px 0 10px; border-bottom: 3px solid #c5a059; display: inline-block; letter-spacing: 6px; }
+        
+        .student-name { font-family: 'Great Vibes', cursive; font-size: 65px; color: #222; margin: 15px 0; text-align: center; width: 100%; }
+        
+        .details-text { font-size: 19px; line-height: 1.6; color: #333; text-align: center; margin: 20px auto; max-width: 700px; }
+
+        /* --- OFFICIAL BLUE SEAL START --- */
+        .seal-container {
+            position: absolute; bottom: -50px; width: 120px; height: 120px;
+            border-radius: 50%; border: 3px solid #003399; /* Blue Ink Color */
+            display: flex; justify-content: center; align-items: center;
+            opacity: 0.8; transform: rotate(-5deg); /* Thoda tircha real look ke liye */
+        }
+        .seal-text {
+            position: absolute; width: 100%; height: 100%;
+        }
+        .seal-text span {
+            position: absolute; left: 50%; transform-origin: 0 60px;
+            font-size: 9px; font-weight: 900; color: #003399; text-transform: uppercase;
+        }
+        .seal-inner-logo {
+            font-family: 'Cinzel', serif; font-size: 20px; font-weight: 900;
+            color: #003399; border: 2px solid #003399; border-radius: 50%; padding: 8px;
+        }
+        /* --- OFFICIAL BLUE SEAL END --- */
+
+        .footer { display: flex; justify-content: space-between; align-items: flex-end; width: 100%; margin-top: auto; padding: 20px 0; }
+        .signature-box { text-align: center; width: 220px; }
+        .digi-sign { font-family: 'Birthstone', cursive; font-size: 38px; color: #1a2a6c; margin: 0; }
+        .signature-box hr { border: 0; border-top: 1.5px solid #333; margin: 5px 0; }
+        .sign-label { font-weight: bold; font-size: 12px; color: #1a2a6c; }
+        
+        .center-group { text-align: center; width: 250px; position: relative; display: flex; flex-direction: column; align-items: center; }
+        .qr-code { width: 85px; height: 85px; margin-bottom: 40px; border: 1px solid #eee; background: white; padding: 5px; }
+
+        @media screen and (max-width: 1020px) {
+            #cert-wrapper { justify-content: flex-start; overflow-x: auto; padding-bottom: 20px; }
+            .cert-card { transform: scale(0.9); transform-origin: top left; }
+        }
+        @media screen and (max-width: 768px) {
+            .cert-card { transform: scale(0.4); transform-origin: top left; }
+            #cert-wrapper { height: 350px; }
+        }
+
+        @media print { 
+            body { background: white; padding: 0; }
+            .search-area, .btn-print { display: none; } 
+            #cert-wrapper { overflow: visible; display: block; }
+            .cert-card { transform: scale(1) !important; width: 1000px; margin: 0; }
+        }
     </style>
 </head>
 <body>
+
     <div class="search-area">
-        <input type="text" id="rollInput" placeholder="Roll Number">
-        <button id="findBtn">Get Certificate</button>
+        <input type="text" id="rollInput" placeholder="Roll No">
+        <button id="findBtn">Verify</button>
     </div>
-    <div id="cert-ui">
+
+    <div id="cert-wrapper">
         <div class="cert-card" id="printArea">
             <div class="cert-border">
+                <h2 class="institute-name">KAUSHAL COMPUTER TRAINING & INSTITUTION</h2>
+                <p class="sub-text">AN ISO 9001:2015 CERTIFIED INSTITUTION</p>
+
                 <img id="out-photo" class="student-photo" src="">
-                <h2 style="font-family:'Cinzel'; color:#1a2a6c;">KAUSHALJI INSTITUTE</h2>
-                <h1 style="font-family:'Cinzel'; color:#c5a059; font-size: 30px;">CERTIFICATE</h1>
-                <p>This is to certify that</p>
-                <div id="out-name" style="font-family:'Great Vibes'; font-size: 38px;">---</div>
-                <div style="margin:20px 0;">Roll No: <b id="out-roll"></b> | Course: <b id="out-course"></b></div>
+
+                <h1 class="main-title">CERTIFICATE</h1>
+                <p style="font-size: 16px; margin: 5px 0; color: #444;">This is to certify that</p>
+                
+                <div id="out-name" class="student-name">---</div>
+                
+                <p class="details-text">
+                    Has successfully qualified the prescribed course of study in <b><span id="out-course">---</span></b> 
+                    with Roll Number <b><span id="out-roll">---</span></b> and secured 
+                    Grade <b><span id="out-grade">---</span></b>.
+                </p>
+
                 <div class="footer">
-                    <div style="text-align:left; font-size:12px;"><hr>Director Signature</div>
-                    <img id="out-qr" class="qr-code">
-                    <div style="text-align:right; font-size:12px;"><p id="out-date"></p><p>India</p></div>
+                    <div class="signature-box">
+                        <p class="digi-sign">Dr. Manoj Kaushal</p>
+                        <hr>
+                        <p class="sign-label">DIRECTOR</p>
+                    </div>
+
+                    <div class="center-group">
+                        <img id="out-qr" class="qr-code">
+                        
+                        <div class="seal-container">
+                            <div class="seal-text" id="circularText"></div>
+                            <div class="seal-inner-logo">KCTI</div>
+                        </div>
+                    </div>
+
+                    <div class="signature-box">
+                        <p class="digi-sign">Harshit Kaushal</p>
+                        <hr>
+                        <p class="sign-label">REGISTRAR</p>
+                    </div>
+                </div>
+                
+                <div style="width: 100%; text-align: left; margin-top: 20px;">
+                    <p id="out-date" style="font-size: 12px; font-weight: bold; color: #1a2a6c; margin-left: 20px;"></p>
                 </div>
             </div>
         </div>
-        <button class="btn-print" onclick="window.print()" style="margin-top:20px; padding:10px 20px; background:#28a745; color:white; border:none; border-radius:5px;">Print / Download</button>
     </div>
+    
+    <button class="btn-print" id="printBtn" onclick="window.print()" style="display:none; margin: 20px auto; padding: 15px 40px; background: #27ae60; color: white; border: none; border-radius: 50px; font-size: 18px; font-weight: bold; cursor: pointer;">Download PDF</button>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
@@ -54,21 +161,34 @@
             projectId: "kaushalji-o-level",
             appId: "1:282134334842:web:02ae55c4d25a2c8e7a1ac3"
         };
-
         const app = initializeApp(firebaseConfig);
         const dbRef = ref(getDatabase(app));
 
+        // Muhar Text Logic
+        const text = "KAUSHAL COMPUTER TRAINING & INSTITUTION * ";
+        const container = document.getElementById('circularText');
+        for (let i = 0; i < text.length; i++) {
+            let span = document.createElement('span');
+            span.innerText = text[i];
+            span.style.transform = `rotate(${i * (360 / text.length)}deg)`;
+            container.appendChild(span);
+        }
+
         document.getElementById('findBtn').onclick = async () => {
             const roll = document.getElementById('rollInput').value.trim();
+            if(!roll) return alert("Roll No?");
+
             const snapshot = await get(child(dbRef, `certificates/${roll}`));
             if(snapshot.exists()) {
                 const data = snapshot.val();
-                document.getElementById('cert-ui').style.display = 'block';
+                document.getElementById('cert-wrapper').style.display = 'flex';
+                document.getElementById('printBtn').style.display = 'block';
                 document.getElementById('out-name').innerText = data.name;
                 document.getElementById('out-roll').innerText = data.roll;
                 document.getElementById('out-course').innerText = data.course;
+                document.getElementById('out-grade').innerText = data.grade || "A";
                 document.getElementById('out-photo').src = data.photo;
-                document.getElementById('out-date').innerText = "Date: " + data.date;
+                document.getElementById('out-date').innerText = "Issue Date: " + data.date;
 
                 const vUrl = `https://harshitkaushal9129-bit.github.io/Certificate/verify.html?id=${roll}`;
                 document.getElementById('out-qr').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(vUrl)}`;
