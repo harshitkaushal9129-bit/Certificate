@@ -3,47 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verification - Kaushalji Institute</title>
+    <title>Verify Certificate</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Great+Vibes&family=Montserrat:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@400;700&display=swap');
         body { font-family: 'Montserrat', sans-serif; background: #eef2f3; text-align: center; padding: 20px; }
-        .verified-badge { background: #28a745; color: white; padding: 10px; border-radius: 5px; margin-bottom: 20px; display: inline-block; font-weight: bold; }
-        
-        .cert-card { width: 100%; max-width: 700px; background: white; padding: 15px; margin: auto; border: 1px solid #ccc; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        .cert-border { border: 8px double #c5a059; padding: 20px; }
-        .student-photo { width: 90px; height: 110px; border: 2px solid #c5a059; object-fit: cover; margin-bottom: 10px; }
-        .institute-name { font-family: 'Cinzel', serif; color: #1a2a6c; font-size: 24px; margin: 0; }
-        .student-name { font-family: 'Great Vibes', cursive; font-size: 34px; color: #222; margin: 10px 0; border-bottom: 1px solid #eee; display: inline-block; min-width: 200px; }
-        .footer { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 30px; }
-        #loader { font-weight: bold; padding: 50px; }
+        .cert-card { width: 100%; max-width: 600px; background: white; padding: 10px; margin: auto; border: 1px solid #ccc; }
+        .cert-border { border: 6px double #c5a059; padding: 20px; }
+        .student-photo { width: 90px; height: 110px; border: 2px solid #c5a059; object-fit: cover; }
     </style>
 </head>
 <body>
-
-    <div id="loader">Verifying Certificate...</div>
-
-    <div id="content" style="display:none;">
-        <div class="verified-badge">✔ DIGITAL VERIFICATION SUCCESSFUL</div>
-        
-        <div class="cert-card">
-            <div class="cert-border">
-                <img id="v-photo" class="student-photo" src="">
-                <h2 class="institute-name">KAUSHALJI INSTITUTE</h2>
-                <h3 style="font-family:'Cinzel'; color:#c5a059; margin: 5px 0;">OFFICIAL COPY</h3>
-                <p style="font-size: 14px;">This record is verified and authentic.</p>
-                
-                <div class="student-name" id="v-name">---</div>
-                <div style="font-size: 15px; line-height: 1.6;">
-                    Son/Daughter of <b><span id="v-father">---</span></b><br>
-                    Roll No: <b><span id="v-roll">---</span></b> | Course: <b><span id="v-course">---</span></b><br>
-                    Grade Obtained: <b><span id="v-grade">---</span></b>
-                </div>
-                
-                <div class="footer">
-                    <div style="text-align:left; font-size: 10px;"><hr>Director Seal</div>
-                    <div style="text-align:right; font-size: 10px;"><p id="v-date"></p><p>Verified System</p></div>
-                </div>
-            </div>
+    <h2 style="color:green;">✔ VERIFIED RECORD</h2>
+    <div class="cert-card">
+        <div class="cert-border">
+            <img id="v-photo" class="student-photo" src="">
+            <h2 style="font-family:'Cinzel'; color:#1a2a6c;">KAUSHALJI INSTITUTE</h2>
+            <hr>
+            <p>Student Name: <b id="v-name"></b></p>
+            <p>Roll No: <b id="v-roll"></b></p>
+            <p>Course: <b id="v-course"></b></p>
+            <p>Grade: <b id="v-grade"></b></p>
+            <p id="v-date" style="font-size:12px;"></p>
         </div>
     </div>
 
@@ -67,17 +47,13 @@
             get(child(dbRef, `certificates/${id}`)).then((snap) => {
                 if(snap.exists()) {
                     const data = snap.val();
-                    document.getElementById('loader').style.display = 'none';
-                    document.getElementById('content').style.display = 'block';
-                    
                     document.getElementById('v-name').innerText = data.name;
-                    document.getElementById('v-father').innerText = data.father;
                     document.getElementById('v-roll').innerText = data.roll;
                     document.getElementById('v-course').innerText = data.course;
                     document.getElementById('v-grade').innerText = data.grade;
-                    document.getElementById('v-date').innerText = "Issue Date: " + data.date;
+                    document.getElementById('v-date').innerText = "Verified on: " + data.date;
                     document.getElementById('v-photo').src = data.photo;
-                } else { document.getElementById('loader').innerText = "Invalid ID!"; }
+                }
             });
         }
     </script>
