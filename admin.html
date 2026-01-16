@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Kaushalji Institute</title>
+    <style>
+        body { font-family: sans-serif; background: #f0f2f5; padding: 20px; }
+        .form-card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); max-width: 500px; margin: auto; }
+        input, select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
+        button { width: 100%; padding: 15px; background: #1a2a6c; color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; }
+        h2 { text-align: center; color: #1a2a6c; }
+    </style>
+</head>
+<body>
+    <div class="form-card">
+        <h2>Admin Panel</h2>
+        <input type="text" id="roll" placeholder="Enter Roll Number (Unique ID)">
+        <input type="text" id="name" placeholder="Student Full Name">
+        <input type="text" id="father" placeholder="Father's Name">
+        <select id="course">
+            <option value="O-Level">O-Level</option>
+            <option value="CCC">CCC</option>
+            <option value="ADCA">ADCA</option>
+        </select>
+        <input type="text" id="grade" placeholder="Grade (e.g. A, B, S)">
+        <button id="saveBtn">Save Record</button>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBwTuTRocI06yThCDLLntez_GVb8hk-HOo",
+            authDomain: "kaushalji-o-level.firebaseapp.com",
+            databaseURL: "https://kaushalji-o-level-default-rtdb.firebaseio.com",
+            projectId: "kaushalji-o-level",
+            storageBucket: "kaushalji-o-level.firebasestorage.app",
+            messagingSenderId: "282134334842",
+            appId: "1:282134334842:web:02ae55c4d25a2c8e7a1ac3"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        document.getElementById('saveBtn').onclick = async () => {
+            const roll = document.getElementById('roll').value.trim();
+            const data = {
+                roll: roll,
+                name: document.getElementById('name').value,
+                father: document.getElementById('father').value,
+                course: document.getElementById('course').value,
+                grade: document.getElementById('grade').value,
+                date: new Date().toLocaleDateString('en-GB')
+            };
+
+            if(!roll || !data.name) return alert("Fill all fields!");
+
+            await set(ref(db, 'certificates/' + roll), data);
+            alert("Data Saved! Now student can search by Roll No: " + roll);
+        };
+    </script>
+</body>
+</html>
