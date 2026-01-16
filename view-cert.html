@@ -3,41 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Download Certificate - Kaushalji Institute</title>
+    <title>View Certificate</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Great+Vibes&family=Montserrat:wght@400;700&display=swap');
         body { font-family: 'Montserrat', sans-serif; background: #eef2f3; text-align: center; padding: 10px; }
-        .search-area { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        input { padding: 12px; width: 220px; border: 1px solid #ddd; border-radius: 5px; outline: none; }
-        button { padding: 12px 20px; background: #1a2a6c; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .search-area { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+        input { padding: 10px; width: 200px; border: 1px solid #ddd; border-radius: 5px; }
+        button { padding: 10px 15px; background: #1a2a6c; color: white; border: none; border-radius: 5px; cursor: pointer; }
 
-        /* Certificate Styling */
         #cert-ui { display: none; margin-top: 20px; }
-        .cert-card { width: 95%; max-width: 850px; background: white; padding: 15px; margin: auto; position: relative; border: 1px solid #ccc; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-        .cert-border { border: 10px double #c5a059; padding: 30px; }
-        .institute-name { font-family: 'Cinzel', serif; color: #1a2a6c; font-size: 32px; margin: 0; }
-        .student-name { font-family: 'Great Vibes', cursive; font-size: 45px; color: #222; margin: 15px 0; border-bottom: 2px solid #eee; display: inline-block; min-width: 300px; }
-        .details { font-size: 18px; line-height: 1.8; color: #333; }
-        .footer { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 40px; }
-        .qr-code { width: 110px; height: 110px; border: 1px solid #eee; background: #fff; padding: 5px; }
+        .cert-card { width: 95%; max-width: 800px; background: white; padding: 15px; margin: auto; border: 1px solid #ccc; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .cert-border { border: 8px double #c5a059; padding: 25px; position: relative; }
+        .student-photo { width: 100px; height: 120px; border: 2px solid #c5a059; object-fit: cover; margin-bottom: 10px; }
+        .institute-name { font-family: 'Cinzel', serif; color: #1a2a6c; font-size: 28px; margin: 0; }
+        .student-name { font-family: 'Great Vibes', cursive; font-size: 38px; color: #222; margin: 10px 0; border-bottom: 1px solid #eee; display: inline-block; min-width: 250px; }
+        .footer { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 30px; }
+        .qr-code { width: 100px; height: 100px; }
         
-        @media print { .search-area, .btn-print { display: none; } body { padding: 0; background: white; } .cert-card { box-shadow: none; border: none; width: 100%; max-width: 100%; } }
+        @media print { .search-area, .btn-print { display: none; } .cert-card { box-shadow: none; border: none; width: 100%; } }
     </style>
 </head>
 <body>
 
     <div class="search-area">
-        <h3>Search Student Certificate</h3>
         <input type="text" id="rollInput" placeholder="Enter Roll Number">
-        <button id="findBtn">Get Certificate</button>
+        <button id="findBtn">Search</button>
     </div>
 
     <div id="cert-ui">
         <div class="cert-card" id="printArea">
             <div class="cert-border">
-                <img src="https://cdn-icons-png.flaticon.com/512/2830/2830305.png" style="width:80px; margin-bottom:10px;">
+                <img id="out-photo" class="student-photo" src="">
                 <h2 class="institute-name">KAUSHALJI INSTITUTE</h2>
-                <h1 style="font-family:'Cinzel'; color:#c5a059; font-size: 40px; margin:10px 0;">CERTIFICATE</h1>
+                <h1 style="font-family:'Cinzel'; color:#c5a059; font-size: 30px;">CERTIFICATE</h1>
                 <p>This is to certify that</p>
                 <div class="student-name" id="out-name">---</div>
                 <div class="details">
@@ -45,30 +43,24 @@
                     successfully completed <b><span id="out-course">---</span></b> with Grade <b><span id="out-grade">---</span></b>.
                 </div>
                 <div class="footer">
-                    <div style="text-align:left; font-size: 14px;"><hr style="border:0; border-top:1px solid #000;">Director Signature</div>
-                    <div>
-                        <img id="out-qr" class="qr-code">
-                        <p style="font-size: 10px; margin: 2px 0;">Scan to Verify</p>
-                    </div>
-                    <div style="text-align:right; font-size: 14px;"><p id="out-date"></p><p>India</p></div>
+                    <div style="text-align:left; font-size: 12px;"><hr>Director Signature</div>
+                    <img id="out-qr" class="qr-code">
+                    <div style="text-align:right; font-size: 12px;"><p id="out-date"></p><p>India</p></div>
                 </div>
             </div>
         </div>
-        <button class="btn-print" onclick="window.print()" style="margin-top:25px; padding:15px 35px; background:#28a745; color:white; border:none; border-radius:5px; font-weight:bold; font-size: 16px;">Download/Print PDF</button>
+        <button class="btn-print" onclick="window.print()" style="margin-top:20px; padding:10px 20px; background:#28a745; color:white; border:none; border-radius:5px;">Download PDF</button>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
         import { getDatabase, ref, get, child } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-database.js";
 
-        // Firebase Config
         const firebaseConfig = {
             apiKey: "AIzaSyBwTuTRocI06yThCDLLntez_GVb8hk-HOo",
             authDomain: "kaushalji-o-level.firebaseapp.com",
             databaseURL: "https://kaushalji-o-level-default-rtdb.firebaseio.com",
             projectId: "kaushalji-o-level",
-            storageBucket: "kaushalji-o-level.firebasestorage.app",
-            messagingSenderId: "282134334842",
             appId: "1:282134334842:web:02ae55c4d25a2c8e7a1ac3"
         };
 
@@ -77,27 +69,22 @@
 
         document.getElementById('findBtn').onclick = async () => {
             const roll = document.getElementById('rollInput').value.trim();
-            if(!roll) return alert("Please enter Roll Number!");
-
             const snapshot = await get(child(dbRef, `certificates/${roll}`));
             
             if(snapshot.exists()) {
                 const data = snapshot.val();
                 document.getElementById('cert-ui').style.display = 'block';
                 document.getElementById('out-name').innerText = data.name;
-                document.getElementById('out-father').innerText = data.father || "N/A";
+                document.getElementById('out-father').innerText = data.father;
                 document.getElementById('out-roll').innerText = data.roll;
                 document.getElementById('out-course').innerText = data.course;
-                document.getElementById('out-grade').innerText = data.grade || "N/A";
-                document.getElementById('out-date').innerText = "Date: " + (data.date || "");
+                document.getElementById('out-grade').innerText = data.grade;
+                document.getElementById('out-date').innerText = "Date: " + data.date;
+                document.getElementById('out-photo').src = data.photo;
 
-                // QR Logic Update: Seedha aapki GitHub Pages ki link point karega
                 const vUrl = `https://harshitkaushal9129-bit.github.io/Certificate/verify.html?id=${roll}`;
                 document.getElementById('out-qr').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(vUrl)}`;
-            } else { 
-                alert("No Record Found!"); 
-                document.getElementById('cert-ui').style.display = 'none';
-            }
+            } else { alert("Not Found!"); }
         };
     </script>
 </body>
