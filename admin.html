@@ -14,16 +14,16 @@
 <body>
     <div class="form-card">
         <h2>Admin Panel</h2>
-        <input type="text" id="roll" placeholder="Roll Number (Unique ID)">
-        <input type="text" id="name" placeholder="Student Full Name">
+        <input type="text" id="roll" placeholder="Roll Number">
+        <input type="text" id="name" placeholder="Student Name">
         <input type="text" id="father" placeholder="Father's Name">
-        <input type="text" id="photo" placeholder="Student Photo URL (Paste Link)">
+        <label style="font-size:12px;">Student Photo:</label>
+        <input type="file" id="photoInput" accept="image/*">
         <select id="course">
             <option value="O-Level">O-Level</option>
             <option value="CCC">CCC</option>
-            <option value="ADCA">ADCA</option>
         </select>
-        <input type="text" id="grade" placeholder="Grade (A, B, S)">
+        <input type="text" id="grade" placeholder="Grade">
         <button id="saveBtn">Save Record</button>
     </div>
 
@@ -44,20 +44,24 @@
 
         document.getElementById('saveBtn').onclick = async () => {
             const roll = document.getElementById('roll').value.trim();
-            const data = {
-                roll: roll,
-                name: document.getElementById('name').value,
-                father: document.getElementById('father').value,
-                photo: document.getElementById('photo').value || "https://via.placeholder.com/100x120?text=No+Photo",
-                course: document.getElementById('course').value,
-                grade: document.getElementById('grade').value,
-                date: new Date().toLocaleDateString('en-GB')
+            const file = document.getElementById('photoInput').files[0];
+            if(!roll || !file) return alert("Roll No aur Photo dono zaroori hain!");
+
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = async () => {
+                const data = {
+                    roll: roll,
+                    name: document.getElementById('name').value,
+                    father: document.getElementById('father').value,
+                    photo: reader.result,
+                    course: document.getElementById('course').value,
+                    grade: document.getElementById('grade').value,
+                    date: new Date().toLocaleDateString('en-GB')
+                };
+                await set(ref(db, 'certificates/' + roll), data);
+                alert("Data Saved! Ab Search karein.");
             };
-
-            if(!roll || !data.name) return alert("Fill all fields!");
-
-            await set(ref(db, 'certificates/' + roll), data);
-            alert("Data Saved Successfully!");
         };
     </script>
 </body>
